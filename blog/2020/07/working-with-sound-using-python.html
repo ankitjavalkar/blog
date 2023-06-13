@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="Working With Sound Using Python" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="/blog/2020/07/working-with-sound-using-python.html" />
+		<meta property="og:image" content="/images/" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>ARJ</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="/theme/css/poole.css" />
+		<link rel="stylesheet" href="/theme/css/hyde.css" />
+		<link rel="stylesheet" href="/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+	</head>
+
+	<body class="theme-base-0d">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="/images/">
+					ARJ
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="#" target="_blank">
+						<i class="fa fa-You can add links in your config file"></i>
+					</a>
+					<a class="sidebar-social-item" href="#" target="_blank">
+						<i class="fa fa-Another social link"></i>
+					</a>
+			<a class="sidebar-social-item" href="/">
+				<i class="fa fa-rss"></i>
+			</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">Working With Sound Using Python</h1>
+	<span class="post-date">Thu 09 July 2020</span>
+	<p>In this tutorial we will learn how to record input sounds, create and work with sound files and visualize sound using Python and the PyAudio package.</p>
+<p><a href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio</a> is a Python package that provides Python bindings for <a href="http://www.portaudio.com/">PortAudio</a>. PortAudio is an open source computer library that interacts with the underlying software frameworks (that, in turn, connect to the system sound card drivers) for audio playback and recording.</p>
+<h3>Installation:</h3>
+<p>In order to install PyAudio, run the following command on your console</p>
+<div class="bash highlight"><pre><span></span><code>pip install pyaudio
+</code></pre></div>
+
+<p>In case you encounter errors similar to or identical to the ones below;</p>
+<div class="bash highlight"><pre><span></span><code>fatal error: portaudio.h: No such file or directory compilation terminated.
+error: Setup script exited with error: <span class="nb">command</span> <span class="s1">&#39;gcc&#39;</span> failed with <span class="nb">exit</span> status <span class="m">1</span>
+</code></pre></div>
+
+<p>This means your system does not have the PortAudio software installed. You can install it on Linux systems using one of the following commands;</p>
+<p>For Debian based systems;</p>
+<div class="bash highlight"><pre><span></span><code>apt-get install portaudio19-dev
+</code></pre></div>
+
+<p>For RHEL/CentOS;</p>
+<div class="bash highlight"><pre><span></span><code>yum install portaudio-devel
+</code></pre></div>
+
+<p>For Fedora;</p>
+<div class="bash highlight"><pre><span></span><code>dnf install portaudio-devel
+</code></pre></div>
+
+<p>Once installed successfully, you can run the pip command again to install PyAudio. You can check if PyAudio is installed successfully by opening your Python console and executing the following Python statements;</p>
+<div class="bash highlight"><pre><span></span><code>&gt;&gt;&gt; import pyaudio
+&gt;&gt;&gt; pyaudio.__version__
+‘0.2.11’
+</code></pre></div>
+
+<p>If everything goes well and there are no exceptions or errors, the output will be a string representing the version number of the PyAudio package (it may be different depending on which version was installed).</p>
+<h3>Playing Audio Files:</h3>
+<p>Let’s start with trying to play an audio .wav file. You can find wav files in your system or download .wav files from the internet. Download the file, save it and remember the location of the file, we recommend you save it in the same directory as the one where you are going to create the script.</p>
+<p>Let’s set the stage;</p>
+<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<span class="kn">import</span> <span class="nn">wave</span>
+
+<span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/path/to/myfile.wav&#39;</span>
+
+<span class="c1"># Set chunk size of 1024 samples per data frame</span>
+<span class="n">chunk</span> <span class="o">=</span> <span class="mi">1024</span>  
+
+<span class="c1"># Create an interface to PortAudio</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">PyAudio</span><span class="p">()</span>
+
+<span class="n">What</span> <span class="n">are</span> <span class="n">we</span> <span class="n">doing</span><span class="p">:</span>
+<span class="n">We</span> <span class="n">start</span> <span class="k">with</span> <span class="n">importing</span> <span class="n">the</span> <span class="n">relevant</span> <span class="n">packages</span><span class="p">,</span> <span class="n">PyAudio</span> <span class="n">to</span> <span class="n">play</span> <span class="n">the</span> <span class="n">file</span> <span class="k">as</span> <span class="n">sound</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">wave</span> <span class="n">package</span> <span class="n">to</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">read</span> <span class="n">the</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">sound</span> <span class="n">file</span><span class="o">.</span>
+<span class="n">We</span> <span class="n">store</span> <span class="n">the</span> <span class="n">the</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">variable</span> <span class="n">since</span> <span class="n">we</span> <span class="n">may</span> <span class="n">have</span> <span class="n">to</span> <span class="n">use</span> <span class="n">it</span> <span class="n">frequently</span> <span class="n">across</span> <span class="n">the</span> <span class="n">script</span>
+<span class="n">We</span> <span class="nb">set</span> <span class="n">the</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="n">chunk</span> <span class="n">to</span> <span class="mi">1024</span> <span class="n">frames</span><span class="o">.</span> <span class="n">Chunks</span> <span class="n">are</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">frames</span> <span class="n">that</span> <span class="n">we</span> <span class="n">will</span> <span class="n">be</span> <span class="n">reading</span> <span class="ow">and</span> <span class="n">writing</span> <span class="n">to</span> <span class="n">the</span> <span class="n">PyAudio</span> <span class="n">stream</span> <span class="n">each</span> <span class="n">time</span><span class="o">.</span>
+<span class="n">Instantiate</span> <span class="n">the</span> <span class="n">PyAudio</span> <span class="n">interface</span>
+
+<span class="n">Now</span><span class="p">,</span> <span class="n">the</span> <span class="n">part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">code</span> <span class="n">that</span> <span class="n">actually</span> <span class="err">‘</span><span class="n">plays</span><span class="err">’</span> <span class="n">the</span> <span class="n">audio</span> <span class="n">file</span>
+
+<span class="c1"># Open the sound file</span>
+<span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="c1"># Create a stream object to write the WAV file to</span>
+    <span class="c1"># &#39;output = True&#39; indicates that sound will be played rather than recorded</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">format</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_format_from_width</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">getsampwidth</span><span class="p">()),</span>
+                    <span class="n">channels</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">getnchannels</span><span class="p">(),</span>
+                    <span class="n">rate</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">getframerate</span><span class="p">(),</span>
+                    <span class="n">output</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Read data in chunks</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+    <span class="c1"># Write the audio data to stream</span>
+    <span class="k">while</span> <span class="n">data</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>What are we doing:</h4>
+<ol>
+<li>We open the sound file using a context manager</li>
+<li>We instantiate a stream and supply the format, channels, rate and output flag information as parameters.</li>
+<li>We read the first 1024 frames of the audio file</li>
+<li>The data is then written to the stream, this is where the system will read from the stream and ‘play’ the audio</li>
+<li>We continue reading chunks of frames and writing them to the stream until we run out of data to read.</li>
+</ol>
+<p>Wrapping everything up;</p>
+<div class="python highlight"><pre><span></span><code><span class="c1"># Close the stream</span>
+<span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1"># Terminate the interface</span>
+<span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+</code></pre></div>
+
+<p>We end the script by closing the stream object and terminating the PyAudio interface.</p>
+<p>Full Code play.py :</p>
+<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<span class="kn">import</span> <span class="nn">wave</span>
+
+<span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/path/to/myfile.wav&#39;</span>
+
+<span class="c1"># Set chunk size of 1024 samples per data frame</span>
+<span class="n">chunk</span> <span class="o">=</span> <span class="mi">1024</span>  
+
+<span class="c1"># Create an interface to PortAudio</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">PyAudio</span><span class="p">()</span>
+
+<span class="c1"># Open the sound file</span>
+<span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="c1"># Create a stream object to write the WAV file to</span>
+    <span class="c1"># &#39;output = True&#39; indicates that sound will be played rather than recorded</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">format</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_format_from_width</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">getsampwidth</span><span class="p">()),</span>
+                    <span class="n">channels</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">getnchannels</span><span class="p">(),</span>
+                    <span class="n">rate</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">getframerate</span><span class="p">(),</span>
+                    <span class="n">output</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Read data in chunks</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+    <span class="c1"># Write the audio data to stream</span>
+    <span class="k">while</span> <span class="n">data</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+<span class="c1"># Close the stream</span>
+<span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1"># Terminate the interface</span>
+<span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+</code></pre></div>
+
+<h3>Recording Audio</h3>
+<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<span class="kn">import</span> <span class="nn">wave</span>
+
+<span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/path/to/myfile.wav&#39;</span>
+
+<span class="c1"># Set chunk size of 1024 samples per data frame</span>
+<span class="n">chunk</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="n">sample_format</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span>
+<span class="n">channels</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mi">44100</span>
+<span class="n">seconds</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Create an interface to PortAudio</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">PyAudio</span><span class="p">()</span>
+</code></pre></div>
+
+<p>What are we doing:
+1. Like before, we start with importing the relevant packages and storing the filename and chunk size in variables.
+1. We also initialize a few other variables;
+    1. The sample format
+    1. The sampling rate
+    1. The number of seconds for which we will record
+1. Instantiate the PyAudio interface</p>
+<p>Now, the part of the code that actually ‘plays’ the audio file</p>
+<div class="python highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recording Started&#39;</span><span class="p">)</span>
+
+<span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">sample_format</span><span class="p">,</span>
+                <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
+                <span class="n">rate</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+                <span class="n">frames_per_buffer</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span>
+                <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Array to store frames</span>
+
+<span class="c1"># Store data in chunks for 3 seconds</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">fs</span> <span class="o">/</span> <span class="n">chunk</span> <span class="o">*</span> <span class="n">seconds</span><span class="p">)):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+    <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>What are we doing:</h4>
+<ol>
+<li>We instantiate a stream and supply the format, channels, rate and output flag information as parameters.</li>
+<li>We calculate the number of chunks that will fit into the given time in seconds and read the data from the stream exactly that many times and append them to an array.</li>
+</ol>
+<div class="python highlight"><pre><span></span><code><span class="n">stream</span><span class="o">.</span><span class="n">stop_stream</span><span class="p">()</span>
+<span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished recording&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>We pause the recording using stop_stream(), closing the stream object and terminate the PyAudio interface.</p>
+<div class="python highlight"><pre><span></span><code><span class="n">wf</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setnchannels</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setsampwidth</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_sample_size</span><span class="p">(</span><span class="n">sample_format</span><span class="p">))</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setframerate</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">writeframes</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">frames</span><span class="p">))</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<p>We end the script by writing all the frames that we collected to a .wav file.</p>
+<h4>Full Code record.py :</h4>
+<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<span class="kn">import</span> <span class="nn">wave</span>
+
+<span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/path/to/myfile.wav&#39;</span>
+
+<span class="c1"># Set chunk size of 1024 samples per data frame</span>
+<span class="n">chunk</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="n">sample_format</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span>
+<span class="n">channels</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mi">44100</span>
+<span class="n">seconds</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Create an interface to PortAudio</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">PyAudio</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recording Started&#39;</span><span class="p">)</span>
+
+<span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">sample_format</span><span class="p">,</span>
+                <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
+                <span class="n">rate</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+                <span class="n">frames_per_buffer</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span>
+                <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Array to store frames</span>
+
+<span class="c1"># Store data in chunks for 3 seconds</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">fs</span> <span class="o">/</span> <span class="n">chunk</span> <span class="o">*</span> <span class="n">seconds</span><span class="p">)):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+    <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">stream</span><span class="o">.</span><span class="n">stop_stream</span><span class="p">()</span>
+<span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished recording&#39;</span><span class="p">)</span>
+
+<span class="n">wf</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setnchannels</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setsampwidth</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_sample_size</span><span class="p">(</span><span class="n">sample_format</span><span class="p">))</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">setframerate</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">writeframes</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">frames</span><span class="p">))</span>
+<span class="n">wf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+</div>
+		</div>
+	</body>
+</html>

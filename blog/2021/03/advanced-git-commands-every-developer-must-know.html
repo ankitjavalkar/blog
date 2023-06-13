@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="Advanced Git Commands Every Developer Must Know" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="/blog/2021/03/advanced-git-commands-every-developer-must-know.html" />
+		<meta property="og:image" content="/images/" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>ARJ</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="/theme/css/poole.css" />
+		<link rel="stylesheet" href="/theme/css/hyde.css" />
+		<link rel="stylesheet" href="/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+	</head>
+
+	<body class="theme-base-0d">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="/images/">
+					ARJ
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="#" target="_blank">
+						<i class="fa fa-You can add links in your config file"></i>
+					</a>
+					<a class="sidebar-social-item" href="#" target="_blank">
+						<i class="fa fa-Another social link"></i>
+					</a>
+			<a class="sidebar-social-item" href="/">
+				<i class="fa fa-rss"></i>
+			</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">Advanced Git Commands Every Developer Must Know</h1>
+	<span class="post-date">Tue 23 March 2021</span>
+	<p>Git, as you may already know by now, is a Distributed Version Control System. It was created by Linus Torvalds in 2005 and is currently the most widely used source-code management tool by professional software developers.</p>
+<p>Although there are multiple GUIs available that allow developers to work with Git, using the Git commands in the command line is till the most powerful and flexible way to use Git. Here are some advanced commands to help you manage your source code better.</p>
+<h3>1. Switching between most recent branches</h3>
+<p><code>git checkout -</code></p>
+<p>One of the more intuitive and niftier shortcuts in git is the <code>git checkout -</code>. The <code>checkout</code> git command, as you may already know, is used to switch between branches (among other things), the <code>-</code> after it takes you to the most recent previously used branch. It's really nifty because you don't really need to type in the full branch name and struggle with options in the tab completion and is a great way to switch quickly. It's intuitive because, and veteran unix command line users will have already noticed this, it seems to be inspired from <code>-</code> argument to the <code>cd</code> command.</p>
+<h3>1. Pick those cherries</h3>
+<p><code>git cherry-pick &lt;COMMIT ID&gt;</code></p>
+<p>If you do not know what <a href="https://git-scm.com/docs/git-cherry-pick">cherry-pick</a> is, it's a git command that allows you to apply the changes introduced by one or more commits in one branch onto another branch.</p>
+<p>You can also cherry pick multiple commit (which could be on another branch) using the command;</p>
+<p><code>git cherry-pick &lt;COMMIT ID A&gt;..&lt;COMMIT ID B&gt;</code></p>
+<h3>1. List all Git branches chronologically</h3>
+<p><code>git branch --sort=-committerdate</code></p>
+<p>Have you been in situations where you have revisited a project after a long while and just cannot remember the most recent branches you were working on. This command is exactly what you need.</p>
+<p>The command lists branches in descending order with the branches that have most recent commits coming first. You can use <code>--sort=committerdate</code> to get results in ascending order.</p>
+<p>Note that this works for Git version 2.7.0 and above. For people unfortunate enough to be stuck with older versions you can use <code>git for-each-ref --sort=-committerdate refs/heads/</code> which also specifies the commit ID (this command works in Git 2.7.0 too).</p>
+<h3>1. Finding Deleted Files</h3>
+<p>There have been cases where I want to find one or more files that I've deleted from a project in the past. Depending on what you need, you can user one of the following command;</p>
+<p>When you remember the exact path to the deleted file;</p>
+<p><code>git log --all -- &lt;PATH-TO-FILE&gt;</code></p>
+<p>When you are not so sure of the file path;</p>
+<p><code>git log --all -- **/&lt;FILENAME&gt;</code></p>
+<p>In the command above you can also use wildcard patterns in the filename in case you are not sure of the complete filename.</p>
+<p>And when you are not so sure of the path or the filename, try to sift through all the deleted files as give by this command;</p>
+<p><code>git log --diff-filter=D --summary</code></p>
+</div>
+		</div>
+	</body>
+</html>
