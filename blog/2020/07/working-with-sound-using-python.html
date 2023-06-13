@@ -10,8 +10,8 @@
 	<meta property="og:description" content="">
 	<meta property="og:title" content="Working With Sound Using Python" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="/blog/2020/07/working-with-sound-using-python.html" />
-		<meta property="og:image" content="/images/" />
+	<meta property="og:url" content="https://ankitjavalkar.github.io/blog/blog/2020/07/working-with-sound-using-python.html" />
+		<meta property="og:image" content="https://ankitjavalkar.github.io/blog/images/" />
 
 		<!-- Enable responsiveness on mobile devices-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -22,9 +22,9 @@
 		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
 		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
 
-		<link rel="stylesheet" href="/theme/css/poole.css" />
-		<link rel="stylesheet" href="/theme/css/hyde.css" />
-		<link rel="stylesheet" href="/theme/css/syntax.css" />
+		<link rel="stylesheet" href="https://ankitjavalkar.github.io/blog/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://ankitjavalkar.github.io/blog/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://ankitjavalkar.github.io/blog/theme/css/syntax.css" />
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
 
 		<!-- Feeds -->
@@ -39,7 +39,7 @@
 
 			<h1>
 				<a href="/">
-					<img class="profile-picture" src="/images/">
+					<img class="profile-picture" src="https://ankitjavalkar.github.io/blog/images/">
 					ARJ
 				</a>
 			</h1>
@@ -56,7 +56,7 @@
 					<a class="sidebar-social-item" href="#" target="_blank">
 						<i class="fa fa-Another social link"></i>
 					</a>
-			<a class="sidebar-social-item" href="/">
+			<a class="sidebar-social-item" href="https://ankitjavalkar.github.io/blog/">
 				<i class="fa fa-rss"></i>
 			</a>
 		</nav>
@@ -69,30 +69,30 @@
 <p><a href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio</a> is a Python package that provides Python bindings for <a href="http://www.portaudio.com/">PortAudio</a>. PortAudio is an open source computer library that interacts with the underlying software frameworks (that, in turn, connect to the system sound card drivers) for audio playback and recording.</p>
 <h3>Installation:</h3>
 <p>In order to install PyAudio, run the following command on your console</p>
-<div class="bash highlight"><pre><span></span><code>pip install pyaudio
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pyaudio
 </code></pre></div>
 
 <p>In case you encounter errors similar to or identical to the ones below;</p>
-<div class="bash highlight"><pre><span></span><code>fatal error: portaudio.h: No such file or directory compilation terminated.
-error: Setup script exited with error: <span class="nb">command</span> <span class="s1">&#39;gcc&#39;</span> failed with <span class="nb">exit</span> status <span class="m">1</span>
+<div class="highlight"><pre><span></span><code>fatal<span class="w"> </span>error:<span class="w"> </span>portaudio.h:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory<span class="w"> </span>compilation<span class="w"> </span>terminated.
+error:<span class="w"> </span>Setup<span class="w"> </span>script<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error:<span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="s1">&#39;gcc&#39;</span><span class="w"> </span>failed<span class="w"> </span>with<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status<span class="w"> </span><span class="m">1</span>
 </code></pre></div>
 
 <p>This means your system does not have the PortAudio software installed. You can install it on Linux systems using one of the following commands;</p>
 <p>For Debian based systems;</p>
-<div class="bash highlight"><pre><span></span><code>apt-get install portaudio19-dev
+<div class="highlight"><pre><span></span><code>apt-get<span class="w"> </span>install<span class="w"> </span>portaudio19-dev
 </code></pre></div>
 
 <p>For RHEL/CentOS;</p>
-<div class="bash highlight"><pre><span></span><code>yum install portaudio-devel
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>install<span class="w"> </span>portaudio-devel
 </code></pre></div>
 
 <p>For Fedora;</p>
-<div class="bash highlight"><pre><span></span><code>dnf install portaudio-devel
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>portaudio-devel
 </code></pre></div>
 
 <p>Once installed successfully, you can run the pip command again to install PyAudio. You can check if PyAudio is installed successfully by opening your Python console and executing the following Python statements;</p>
-<div class="bash highlight"><pre><span></span><code>&gt;&gt;&gt; import pyaudio
-&gt;&gt;&gt; pyaudio.__version__
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>pyaudio
+&gt;&gt;&gt;<span class="w"> </span>pyaudio.__version__
 ‘0.2.11’
 </code></pre></div>
 
@@ -100,7 +100,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 <h3>Playing Audio Files:</h3>
 <p>Let’s start with trying to play an audio .wav file. You can find wav files in your system or download .wav files from the internet. Download the file, save it and remember the location of the file, we recommend you save it in the same directory as the one where you are going to create the script.</p>
 <p>Let’s set the stage;</p>
-<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
 <span class="kn">import</span> <span class="nn">wave</span>
 
 <span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
@@ -147,7 +147,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 <li>We continue reading chunks of frames and writing them to the stream until we run out of data to read.</li>
 </ol>
 <p>Wrapping everything up;</p>
-<div class="python highlight"><pre><span></span><code><span class="c1"># Close the stream</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Close the stream</span>
 <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="c1"># Terminate the interface</span>
 <span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
@@ -155,7 +155,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 
 <p>We end the script by closing the stream object and terminating the PyAudio interface.</p>
 <p>Full Code play.py :</p>
-<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
 <span class="kn">import</span> <span class="nn">wave</span>
 
 <span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
@@ -191,7 +191,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 </code></pre></div>
 
 <h3>Recording Audio</h3>
-<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
 <span class="kn">import</span> <span class="nn">wave</span>
 
 <span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
@@ -217,7 +217,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
     1. The number of seconds for which we will record
 1. Instantiate the PyAudio interface</p>
 <p>Now, the part of the code that actually ‘plays’ the audio file</p>
-<div class="python highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recording Started&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recording Started&#39;</span><span class="p">)</span>
 
 <span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="n">sample_format</span><span class="p">,</span>
                 <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
@@ -238,14 +238,14 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 <li>We instantiate a stream and supply the format, channels, rate and output flag information as parameters.</li>
 <li>We calculate the number of chunks that will fit into the given time in seconds and read the data from the stream exactly that many times and append them to an array.</li>
 </ol>
-<div class="python highlight"><pre><span></span><code><span class="n">stream</span><span class="o">.</span><span class="n">stop_stream</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">stream</span><span class="o">.</span><span class="n">stop_stream</span><span class="p">()</span>
 <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished recording&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>We pause the recording using stop_stream(), closing the stream object and terminate the PyAudio interface.</p>
-<div class="python highlight"><pre><span></span><code><span class="n">wf</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">wf</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
 <span class="n">wf</span><span class="o">.</span><span class="n">setnchannels</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
 <span class="n">wf</span><span class="o">.</span><span class="n">setsampwidth</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_sample_size</span><span class="p">(</span><span class="n">sample_format</span><span class="p">))</span>
 <span class="n">wf</span><span class="o">.</span><span class="n">setframerate</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
@@ -255,7 +255,7 @@ error: Setup script exited with error: <span class="nb">command</span> <span cla
 
 <p>We end the script by writing all the frames that we collected to a .wav file.</p>
 <h4>Full Code record.py :</h4>
-<div class="python highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyaudio</span>
 <span class="kn">import</span> <span class="nn">wave</span>
 
 <span class="c1"># Specify the file name along with the path if it is not in the same dir</span>
